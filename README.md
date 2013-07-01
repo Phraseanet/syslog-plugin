@@ -1,5 +1,7 @@
 # Phraseanet Syslog Plugin
 
+[![Build Status](https://travis-ci.org/Phraseanet/syslog-plugin.png?branch=master)](https://travis-ci.org/Phraseanet/syslog-plugin)
+
 ## Installation
 
 First, retrieve the latest version :
