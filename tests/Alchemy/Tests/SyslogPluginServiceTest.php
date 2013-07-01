@@ -34,7 +34,19 @@ class SyslogPluginServiceTest extends \PHPUnit_Framework_TestCase
             return $logger;
         });
 
+        $logger2 = $this->getMockBuilder('Monolog\\Logger')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $logger2->expects($this->once())
+            ->method('pushHandler')
+            ->with($this->isInstanceOf('Monolog\Handler\SyslogHandler'));
+
+        $app['monolog'] = $app->share(function () use ($logger2) {
+            return $logger2;
+        });
+
         $app->boot();
         $app['task-manager.logger'];
+        $app['monolog'];
     }
 }

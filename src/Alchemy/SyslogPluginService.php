@@ -50,6 +50,13 @@ class SyslogPluginService implements PluginProviderInterface
                 return $logger;
             })
         );
+        $app['monolog'] = $app->share(
+            $app->extend('monolog', function($logger, $app) {
+                $logger->pushHandler($app['syslog-plugin.logger']);
+
+                return $logger;
+            })
+        );
     }
 
     /**
