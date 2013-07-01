@@ -1,6 +1,6 @@
 CHANGELOG
 ---------
 
-* 0.1.0 (xx-xx-2013)
+* 0.1.0 (2013-07-01)
 
   * First stable version.
