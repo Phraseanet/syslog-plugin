@@ -1,0 +1,14 @@
+{
+    "name": "syslog-plugin",
+    "description" : "A syslog plugin",
+    "keywords"    : ["logging"],
+    "license"     : "MIT",
+    "version"     : "0.1",
+    "minimum-phraseanet-version": "3.8",
+    "maximum-phraseanet-version": "3.9",
+    "services" : [
+        {
+            "class": "Alchemy\\SyslogPluginService"
+        }
+    ]
+}
