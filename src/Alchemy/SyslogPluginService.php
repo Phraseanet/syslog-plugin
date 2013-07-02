@@ -24,17 +24,27 @@ class SyslogPluginService implements PluginProviderInterface
      */
     public function register(Application $app)
     {
-        $app['syslog-plugin.logger'] = $app->share(function (Application $app) {
-            $syslogLevel = Logger::DEBUG;
+        $app['syslog-plugin.configuration'] = $app->share(function (Application $app) {
+            $conf = array();
 
             if (isset($app['phraseanet.configuration']['plugins']['syslog-plugin'])) {
-                $options = $app['phraseanet.configuration']['plugins']['syslog-plugin'];
-                if (isset($options['level']) && null !== constant($options['level'])) {
-                    $syslogLevel = constant($options['level']);
-                }
+                $conf = $app['phraseanet.configuration']['plugins']['syslog-plugin'];
             }
 
-            return new SyslogHandler("Phraseanet-TaskManager", "user", $syslogLevel);
+            return array_replace(array(
+                'level'      => Logger::DEBUG,
+                'channels'   => $app['log.channels'],
+            ), $conf);
+        });
+
+        $app['syslog-plugin.handler'] = $app->share(function (Application $app) {
+            $level = $app['syslog-plugin.configuration']['level'];
+
+            if (defined($level)) {
+                $level = constant($level);
+            }
+
+            return new SyslogHandler("Phraseanet-TaskManager", "user", $level);
         });
     }
 
@@ -43,20 +53,15 @@ class SyslogPluginService implements PluginProviderInterface
      */
     public function boot(Application $app)
     {
-        $app['task-manager.logger'] = $app->share(
-            $app->extend('task-manager.logger', function($logger, $app) {
-                $logger->pushHandler($app['syslog-plugin.logger']);
+        foreach ((array) $app['syslog-plugin.configuration']['channels'] as $channel) {
+            $app[$channel] = $app->share(
+                $app->extend($channel, function($logger, $app) {
+                    $logger->pushHandler($app['syslog-plugin.handler']);
 
-                return $logger;
-            })
-        );
-        $app['monolog'] = $app->share(
-            $app->extend('monolog', function($logger, $app) {
-                $logger->pushHandler($app['syslog-plugin.logger']);
-
-                return $logger;
-            })
-        );
+                    return $logger;
+                })
+            );
+        }
     }
 
     /**

@@ -27,7 +27,13 @@ plugins:
         # values : task_abstract::[LOG_DEBUG | LOG_INFO | LOG_WARNING |
         # LOG_ERROR | LOG_CRITICAL | LOG_ALERT]
         level: task_abstract::LOG_ERROR
+        channels:
+            task-manager.logger
+            monolog
 ```
+
+ - level: optional, default to `\task_abstract::LOG_DEBUG`
+ - channels: optional, array, default to all channels.
 
 ## Uninstall
 

@@ -19,7 +19,7 @@ class SyslogPluginServiceTest extends \PHPUnit_Framework_TestCase
         $configuration->expects($this->any())
             ->method('offsetGet')
             ->with('plugins')
-            ->will($this->returnValue(array('syslog-plugin' => Logger::DEBUG)));
+            ->will($this->returnValue(array('syslog-plugin' => array('level' => Logger::DEBUG))));
 
         $app['phraseanet.configuration'] = $configuration;
 
