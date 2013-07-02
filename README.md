@@ -1,6 +1,7 @@
 # Phraseanet Syslog Plugin
 
 [![Build Status](https://travis-ci.org/Phraseanet/syslog-plugin.png?branch=master)](https://travis-ci.org/Phraseanet/syslog-plugin)
+A syslog plugin for [Phraseanet](https://github.com/alchemy-fr/Phraseanet).
 
 ## Installation
 
