@@ -31,20 +31,18 @@ class SyslogPluginService implements PluginProviderInterface
                 $conf = $app['phraseanet.configuration']['plugins']['syslog-plugin'];
             }
 
-            return array_replace(array(
-                'level'      => Logger::DEBUG,
-                'channels'   => $app['log.channels'],
+            $conf = array_replace(array(
+                'level'     => Logger::DEBUG,
+                'channels'  => $app['log.channels'],
             ), $conf);
+
+            $conf['level'] = defined('Monolog\\Logger::'.$conf['level']) ? constant('Monolog\\Logger::'.$conf['level']) : Logger::DEBUG;
+
+            return $conf;
         });
 
         $app['syslog-plugin.handler'] = $app->share(function (Application $app) {
-            $level = $app['syslog-plugin.configuration']['level'];
-
-            if (defined($level)) {
-                $level = constant($level);
-            }
-
-            return new SyslogHandler("Phraseanet-TaskManager", "user", $level);
+            return new SyslogHandler("Phraseanet-TaskManager", "user", $app['syslog-plugin.configuration']['level']);
         });
     }
 

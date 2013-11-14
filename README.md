@@ -25,15 +25,14 @@ Use the following options to configure the plugin in your `configuration.yml`
 ```yaml
 plugins:
     syslog-plugin:
-        # values : task_abstract::[LOG_DEBUG | LOG_INFO | LOG_WARNING |
-        # LOG_ERROR | LOG_CRITICAL | LOG_ALERT]
-        level: task_abstract::LOG_ERROR
+        # values : [DEBUG | INFO | NOTICE | WARNING | ERROR | CRITICAL | ALERT | EMERGENCY]
+        level: ERROR
         channels:
             task-manager.logger
             monolog
 ```
 
- - level: optional, default to `\task_abstract::LOG_DEBUG`
+ - level: optional, default to `DEBUG`
  - channels: optional, array, default to all channels.
 
 ## Uninstall
